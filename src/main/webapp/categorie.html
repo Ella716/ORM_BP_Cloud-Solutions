@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Categorie Management</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h1>Categorie Management</h1>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody id="categorie-table-body"></tbody>
+    </table>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#categorie-modal">
+        Add Categorie
+    </button>
+</div>
+
+<!-- Modal for adding/editing a categorie -->
+<div class="modal fade" id="categorie-modal" tabindex="-1" role="dialog" aria-labelledby="categorie-modal-label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="categorie-modal-label">Add/Edit Categorie</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="categorie-form">
+                    <input type="hidden" id="categorie-id" name="categorieId">
+                    <div class="form-group">
+                        <label for="categorie-name">Name</label>
+                        <input type="text" class="form-control" id="categorie-name" name="categorieName" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="categorie-save-button">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="js/categorie.js"></script>
+</body>
+</html>
