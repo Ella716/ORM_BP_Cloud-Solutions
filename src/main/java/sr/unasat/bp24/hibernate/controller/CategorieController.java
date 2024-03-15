@@ -1,5 +1,6 @@
 package sr.unasat.bp24.hibernate.controller;
 
+import sr.unasat.bp24.hibernate.dto.CategorieDTO;
 import sr.unasat.bp24.hibernate.entity.Categorie;
 import sr.unasat.bp24.hibernate.service.CategorieService;
 
@@ -18,6 +19,19 @@ public class CategorieController {
         return Response.ok(categorieService.getCategorieen()).build();
     }
 
+    @GET
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getCategorieById(@PathParam("id") int id) {
+        Categorie categorie = categorieService.getCategorieById(id);
+        if (categorie != null) {
+            return Response.ok(categorie).build();
+        } else {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+    }
+
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -27,17 +41,22 @@ public class CategorieController {
     }
 
     @PUT
-    @Path("/{categorieId}")
+    @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updateCategorie(@PathParam("categorieId") int categorieId, String newNaam) {
-        Categorie updatedCategorie = categorieService.updateCategorie(categorieId, newNaam);
-        if (updatedCategorie != null) {
-            return Response.ok(updatedCategorie).build();
-        } else {
+    public Response updateCategorie(@PathParam("id") int id, CategorieDTO categorieDTO) {
+        Categorie existingCategorie = categorieService.getCategorieById(id);
+        if (existingCategorie == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
+
+        existingCategorie.setNaam(categorieDTO.getNaam());
+        // Update other properties as needed
+
+        categorieService.updateCategorie(existingCategorie);
+        return Response.ok(existingCategorie).build();
     }
+
 
     @DELETE
     @Path("/{categorieId}")

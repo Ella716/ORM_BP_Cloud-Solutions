@@ -12,6 +12,23 @@ function haalGebruikersOp() {
         .catch(error => console.error('Er is een fout opgetreden bij het ophalen van gebruikersgegevens:', error));
 }
 
+function toonBericht(type, title, message) {
+    const toast = new bootstrap.Toast(document.getElementById('message'));
+    document.getElementById('message-title').textContent = title;
+    document.getElementById('message-body').textContent = message;
+    document.getElementById('message').classList.remove('bg-success', 'bg-danger');
+    document.getElementById('message').classList.add(`bg-${type}`);
+    toast.show();
+}
+
+function toonSuccesBericht(title, message) {
+    toonBericht('success', title, message);
+}
+
+function toonFoutBericht(title, message) {
+    toonBericht('danger', title, message);
+}
+
 // Functie om gebruikersgegevens in de tabel weer te geven
 function toonGebruikers(gebruikers) {
     const gebruikerstabel = document.getElementById('gebruikers-list');
@@ -51,10 +68,12 @@ function toonGebruikers(gebruikers) {
 }
 
 class GebruikerDTO {
-    constructor(gebruikerId, naam, email) {
+    constructor(gebruikerId, naam, email, wachtwoord) {
         this.gebruikerId = gebruikerId;
         this.naam = naam;
         this.email = email;
+        this.wachtwoord = wachtwoord;
+
     }
 }
 
@@ -86,7 +105,6 @@ function bewerkGebruiker(gebruiker) {
 
     console.log('Gebruiker bewerken:', gebruiker);
 }
-
 
 
 // Functie om een bewerkte gebruiker naar de backend te sturen
@@ -121,17 +139,89 @@ function bewerkGebruikerInBackend(bewerkteGebruiker) {
             // Verwerken van de respons van de backend, bijvoorbeeld notificatie weergeven
             console.log('Gebruiker succesvol bijgewerkt:', data);
             // Voeg hier code toe om een succesmelding te tonen aan de gebruiker
+            toonSuccesBericht('Gebruiker succesvol bijgewerkt', data.message);
+
 
             // Sluit de bewerkingsmodal
-            const bewerkModal = new bootstrap.Modal(document.getElementById("bewerkGebruikerModal"));
-            bewerkModal.hide();
+            const modal = new bootstrap.Modal(document.getElementById('bewerkGebruikerModal'));
+            modal.hide();
+
+            //Update the table by calling haalGebruikersOp()
+            haalGebruikersOp();
         })
         .catch(error => {
             console.error('Fout bij het bijwerken van de gebruiker:', error.message);
             // Voeg hier code toe om een foutmelding te tonen aan de gebruiker
+            toonFoutBericht('Fout bij het bijwerkenvan de gebruiker', error.message);
+
         });
 }
 
+function toonToevoegModal() {
+    // Modal venster openen (using Bootstrap's JavaScript)
+    const toevoegModal = new bootstrap.Modal(document.getElementById("toevoegGebruikerModal"));
+    toevoegModal.show();
+
+    // Event listener toevoegen aan de knop "Toevoegen"
+    document.getElementById('toevoegenKnop').addEventListener('click', function() {
+        // Gebruikersgegevens ophalen uit de invoervelden
+        var nieuweGebruiker = new GebruikerDTO(document.getElementById('nieuweNaam').value, document.getElementById('nieuweEmail').value, document.getElementById('nieuwWachtwoord').value);
+
+        // Log the 'nieuweGebruiker' object to the console
+        console.log('Nieuwe gebruiker:', nieuweGebruiker);
+
+        // Verstuur de nieuwe gebruiker naar de backend om op te slaan
+        toevoegGebruikerInBackend(nieuweGebruiker);
+    });
+}
+
+function toevoegGebruikerInBackend(nieuweGebruiker) {
+    // Log the 'nieuweGebruiker' object to the console
+    console.log('Nieuwe gebruiker:', nieuweGebruiker);
+
+    // Endpoint voor het toevoegen van een gebruiker in de backend
+    var endpoint ='http://localhost:8080/ORM_BP_24___Cloud_Solutions_war_exploded/api/gebruikers';
+
+    // Log the endpoint URL to the console
+    console.log('Endpoint URL:', endpoint);
+
+    // Opties voor het HTTP-verzoek
+    var options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(nieuweGebruiker)
+    };
+
+    // HTTP-verzoek uitvoeren met behulp van Fetch API
+    fetch(endpoint, options)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Er is een fout opgetreden bij het toevoegen van de gebruiker.');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Verwerken van de respons van de backend, bijvoorbeeld notificatie weergeven
+            console.log('Gebruiker succesvol toegevoegd:', data);
+            // Voeg hier code toe om een succesmelding te tonen aan de gebruiker
+            toonSuccesBericht('Gebruiker succesvol toegevoegd', data.message);
+
+            // Sluit de toevoegingsmodal
+            const modal = new bootstrap.Modal(document.getElementById('toevoegGebruikerModal'));
+            modal.hide({ backdrop: false });
+
+            //Update the table by calling haalGebruikersOp()
+            haalGebruikersOp();
+        })
+        .catch(error => {
+            console.error('Fout bij het toevoegen van de gebruiker:', error.message);
+            // Voeg hier code toe om een foutmelding te tonen aan de gebruiker
+            toonFoutBericht('Fout bij het toevoegen van de gebruiker', error.message);
+
+        });
+}
 
 /// Functie om een gebruiker te verwijderen
 function verwijderGebruiker(gebruikerId) {

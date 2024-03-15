@@ -4,15 +4,17 @@ public class GebruikerDTO {
     private int gebruikerId;
     private String naam;
     private String email;
+    private String wachtwoord;
 
     public GebruikerDTO() {
 
     }
 
-    public GebruikerDTO(int gebruikerId, String naam, String email) {
+    public GebruikerDTO(int gebruikerId, String naam, String email, String wachtwoord) {
         this.gebruikerId = gebruikerId;
         this.naam = naam;
         this.email = email;
+        this.wachtwoord = wachtwoord;
     }
 
     public int getGebruikerId() {
@@ -38,4 +40,13 @@ public class GebruikerDTO {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public String getWachtwoord() {
+        return wachtwoord;
+    }
+
+    public void setWachtwoord(String wachtwoord) {
+        this.wachtwoord = wachtwoord;
+    }
 }
+

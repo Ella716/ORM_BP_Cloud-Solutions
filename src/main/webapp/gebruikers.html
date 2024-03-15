@@ -7,10 +7,27 @@
     <!-- Voeg Bootstrap CSS toe -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <style>
+        body {
+            background: linear-gradient(90deg, #095BA8 0%, #1F2229 100%);
+
+            color: #fff;
+        }
+        #gebruikers-list {
+            color: #fff;
+        }
+        #gebruikers-list th {
+            color: #fff;
+        }
+    </style>
 </head>
 <body>
 <div class="container mt-5">
     <h1 class="mb-4">Gebruikers</h1>
+    <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#toevoegGebruikerModal" onclick="toonToevoegModal()">
+        Toevoegen
+    </button>
     <!-- Tabel voor gebruikers -->
     <table class="table">
         <thead>
@@ -47,8 +64,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuleren</button>
                     <!-- Opslaan-knop -->
-                    <button id="opslaanKnop" type="submit" class="btn btn-primary">Opslaan</button>
-                </div>
+                    <button id="opslaanKnop" type="submit" class="btn btn-primary" data-bs-dismiss="modal">Opslaan</button>                </div>
             </div>
         </div>
     </div>
@@ -77,10 +93,49 @@
         </div>
     </div>
 
+    <!-- Modaal voor gebruiker toevoegen -->
+    <div class="modal fade" id="toevoegGebruikerModal" tabindex="-1" role="dialog" aria-labelledby="toevoegGebruikerModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="toevoegGebruikerModalLabel">Nieuwe Gebruiker</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Invoervelden voor het toevoegen van een nieuwe gebruiker-->
+                    <div class="mb-3">
+                        <input type="text" id="nieuweNaam" class="form-control" placeholder="Naam" autocomplete="off">
+                    </div>
+                    <div class="mb-3">
+                        <input type="email" id="nieuweEmail" class="form-control" placeholder="Email" autocomplete="off">
+                    </div>
+                    <div class="mb-3">
+                        <input type="password" id="nieuwWachtwoord" class="form-control" placeholder="Wachtwoord" autocomplete="new-password">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuleren</button>
+                    <!-- Toevoegen-knop -->
+                    <button id="toevoegenKnop" type="submit" class="btn btn-primary" data-bs-dismiss="modal">Toevoegen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <!-- Voeg Bootstrap JavaScript toe -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="js/gebruikers.js"></script>
+
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div id="message" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto" id="message-title"></strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div id="message-body" class="toast-body"></div>
+    </div>
+</div>
 </body>
 </html>

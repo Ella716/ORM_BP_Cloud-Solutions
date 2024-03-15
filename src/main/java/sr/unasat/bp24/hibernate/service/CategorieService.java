@@ -20,14 +20,10 @@ public class CategorieService {
     public Categorie createCategorie(String categorieNaam) {
         return repository.createCategorie(categorieNaam);
     }
-    public Categorie updateCategorie(int categorieId, String newNaam) {
-        Categorie categorie = repository.findById(categorieId);
-        if (categorie == null) {
-            return null;
-        }
-        categorie.setNaam(newNaam);
+    public Categorie updateCategorie(Categorie categorie) {
         return repository.save(categorie);
     }
+
 
     public boolean deleteCategorie(int categorieId) {
         Categorie categorie = repository.findById(categorieId);
@@ -35,6 +31,10 @@ public class CategorieService {
             return false;
         }
         return repository.delete(categorie);
+    }
+
+    public Categorie getCategorieById(int categorieId) {
+        return repository.findById(categorieId);
     }
 
 

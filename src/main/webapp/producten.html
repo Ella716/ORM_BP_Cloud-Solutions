@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Producten</title>
+  <!-- Voeg Bootstrap CSS toe -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+</head>
+<body>
+<div class="container mt-5">
+  <h1 class="mb-4">Producten</h1>
+  <!-- Tabel voor producten -->
+  <table class="table">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Naam</th>
+      <th>Prijs</th>
+      <th>Categorie</th>
+      <th>Acties</th>
+    </tr>
+    </thead>
+    <tbody id="producten-list">
+    <!-- Productgegevens worden hier ingeladen via JavaScript -->
+    </tbody>
+  </table>
+
+  <!-- Modaal voor product bewerken -->
+  <div class="modal fade" id="bewerkProductModal" tabindex="-1" role="dialog" aria-labelledby="bewerkProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="bewerkProductModalLabel">Bewerk Product</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Invoervelden voor het bewerken van productgegevens -->
+          <div class="mb-3">
+            <input type="text" id="product-naam" class="form-control" placeholder="Naam">
+          </div>
+          <div class="mb-3">
+            <input type="number" id="product-prijs" class="form-control" placeholder="Prijs">
+          </div>
+          <!-- Dropdown voor categorie -->
+          <div class="mb-3">
+            <select id="product-categorie" class="form-select">
+              <!-- Opties voor categorieën worden hier ingeladen via JavaScript -->
+            </select>
+          </div>
+          <input type="hidden" id="product-id">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuleren</button>
+          <!-- Opslaan-knop -->
+          <button id="opslaanProductKnop" type="submit" class="btn btn-primary">Opslaan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modaal voor product verwijderen -->
+  <div class="modal fade" id="verwijderProductModal" tabindex="-1" role="dialog" aria-labelledby="verwijderProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="verwijderProductModalLabel">Verwijder Product</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Inhoud van het verwijderingsbericht -->
+          <p>Weet je zeker dat je dit product wilt verwijderen?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuleren</button>
+          <!-- Verwijderen-knop -->
+          <button id="verwijderProductKnop" type="button" class="btn btn-danger">Verwijderen</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Voeg Bootstrap JavaScript toe -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/producten.js"></script>
+</body>
+</html>
