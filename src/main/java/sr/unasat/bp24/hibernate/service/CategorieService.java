@@ -18,9 +18,16 @@ public class CategorieService {
         return repository.getCategorieen();
     }
 
-    public Categorie createCategorie(String categorieNaam) {
-        return repository.createCategorie(categorieNaam);
+    public Categorie createCategorie(String naam) {
+        Categorie categorie = new Categorie();
+        categorie.setNaam(naam);
+        EntityManager em = JPAConfiguration.getEntityManager();
+        em.getTransaction().begin();
+        Categorie savedCategorie = repository.createCategorie(naam);
+        em.getTransaction().commit();
+        return savedCategorie;
     }
+
     public Categorie updateCategorie(Categorie categorie) {
         Categorie existingCategorie = repository.findById(categorie.getCategorieId());
         if (existingCategorie == null) {
@@ -47,7 +54,13 @@ public class CategorieService {
         if (categorie == null) {
             return false;
         }
-        return repository.delete(categorie);
+
+        EntityManager em = JPAConfiguration.getEntityManager();
+        em.getTransaction().begin();
+        repository.delete(categorie);
+        em.getTransaction().commit();
+
+        return true;
     }
 
     public Categorie getCategorieById(int categorieId) {

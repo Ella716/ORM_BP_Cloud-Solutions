@@ -158,14 +158,12 @@ function bewerkGebruikerInBackend(bewerkteGebruiker) {
 }
 
 function toonToevoegModal() {
-    // Modal venster openen (using Bootstrap's JavaScript)
-    const toevoegModal = new bootstrap.Modal(document.getElementById("toevoegGebruikerModal"));
-    toevoegModal.show();
+
 
     // Event listener toevoegen aan de knop "Toevoegen"
     document.getElementById('toevoegenKnop').addEventListener('click', function() {
         // Gebruikersgegevens ophalen uit de invoervelden
-        var nieuweGebruiker = new GebruikerDTO(document.getElementById('nieuweNaam').value, document.getElementById('nieuweEmail').value, document.getElementById('nieuwWachtwoord').value);
+        var nieuweGebruiker = new GebruikerDTO(document.getElementById('nieuweId').value,document.getElementById('nieuweNaam').value, document.getElementById('nieuweEmail').value, document.getElementById('nieuwWachtwoord').value);
 
         // Log the 'nieuweGebruiker' object to the console
         console.log('Nieuwe gebruiker:', nieuweGebruiker);
@@ -208,9 +206,7 @@ function toevoegGebruikerInBackend(nieuweGebruiker) {
             // Voeg hier code toe om een succesmelding te tonen aan de gebruiker
             toonSuccesBericht('Gebruiker succesvol toegevoegd', data.message);
 
-            // Sluit de toevoegingsmodal
-            const modal = new bootstrap.Modal(document.getElementById('toevoegGebruikerModal'));
-            modal.hide({ backdrop: false });
+
 
             //Update the table by calling haalGebruikersOp()
             haalGebruikersOp();

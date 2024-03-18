@@ -7,10 +7,52 @@
     <!-- Voeg Bootstrap CSS toe -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <style>
+        body {
+            background: linear-gradient(90deg, #095BA8 0%, #1F2229 100%);
+
+            color: #fff;
+        }
+        #categorieen-list {
+            color: #fff;
+        }
+        #categorieen-list th {
+            color: #fff;
+        }
+    </style>
+
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-light bg-gradient">
+    <div class="container-fluid">
+        <a class="navbar-brand text-white" href="#">e-commerce Cloud Solutions</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="http://localhost:8080/ORM_BP_24___Cloud_Solutions_war_exploded/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="http://localhost:8080/ORM_BP_24___Cloud_Solutions_war_exploded/gebruikers.html">Gebruiker</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="http://localhost:8080/ORM_BP_24___Cloud_Solutions_war_exploded/categorie.html">Categorie</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="http://localhost:8080/ORM_BP_24___Cloud_Solutions_war_exploded/producten.html">Product</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 <div class="container mt-5">
     <h1 class="mb-4">Categorieën</h1>
+    <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#toevoegCategorieModal" onclick="toonToevoegModal()">
+        Toevoegen
+    </button>
     <!-- Tabel voor categorieën -->
     <table class="table">
         <thead>
@@ -71,10 +113,47 @@
             </div>
         </div>
     </div>
+
+    <!-- Modaal voor categorie toevoegen -->
+    <div class="modal fade" id="toevoegCategorieModal" tabindex="-1" role="dialog" aria-labelledby="toevoegCategorieModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="toevoegCategorieModalLabel">Nieuwe Categorie</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Invoervelden voor het toevoegen van een nieuwe categorie-->
+                    <div class="mb-3">
+                        <input type="text" id="nieuweId" class="form-control" placeholder="ID" autocomplete="off" hidden>
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" id="nieuweNaam" class="form-control" placeholder="Naam" autocomplete="off">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuleren</button>
+                    <!-- Toevoegen-knop -->
+                    <button id="toevoegenKnop" type="submit" class="btn btn-primary" data-bs-dismiss="modal">Toevoegen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <!-- Voeg Bootstrap JavaScript toe -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="js/categorieen.js"></script>
+
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div id="message" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto" id="message-title"></strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div id="message-body" class="toast-body"></div>
+    </div>
+</div>
 </body>
 </html>

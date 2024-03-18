@@ -47,12 +47,10 @@ public class CategorieController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createCategorie(String categorieNaam) {
-        Categorie createdCategorie = categorieService.createCategorie(categorieNaam);
-        CategorieDTO createdCategorieDTO = new CategorieDTO();
-        createdCategorieDTO.setCategorieId(createdCategorie.getCategorieId());
-        createdCategorieDTO.setNaam(createdCategorie.getNaam());
-        return Response.status(Response.Status.CREATED).entity(createdCategorieDTO).build();
+    public Response createCategorie(CategorieDTO categorieDTO) {
+        Categorie createdCategorie = categorieService.createCategorie(categorieDTO.getNaam());
+        categorieDTO.setCategorieId(createdCategorie.getCategorieId());
+        return Response.status(Response.Status.CREATED).entity(categorieDTO).build();
     }
 
     @PUT

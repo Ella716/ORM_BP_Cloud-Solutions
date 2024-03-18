@@ -128,13 +128,16 @@
                 <div class="modal-body">
                     <!-- Invoervelden voor het toevoegen van een nieuwe gebruiker-->
                     <div class="mb-3">
-                        <input type="text" id="nieuweNaam" class="form-control" placeholder="Naam" autocomplete="off">
+                        <input type="text" id="nieuweId" class="form-control" placeholder="ID" autocomplete="off" hidden>
                     </div>
                     <div class="mb-3">
-                        <input type="email" id="nieuweEmail" class="form-control" placeholder="Email" autocomplete="off">
+                        <input type="text" id="nieuweNaam" class="form-control" placeholder="Naam" autocomplete="off" required>
                     </div>
                     <div class="mb-3">
-                        <input type="password" id="nieuwWachtwoord" class="form-control" placeholder="Wachtwoord" autocomplete="new-password">
+                        <input type="email" id="nieuweEmail" class="form-control" placeholder="Email" autocomplete="off" required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="password" id="nieuwWachtwoord" class="form-control" placeholder="Wachtwoord" autocomplete="new-password" required>
                     </div>
                 </div>
                 <div class="modal-footer">

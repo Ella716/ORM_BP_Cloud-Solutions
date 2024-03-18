@@ -6,10 +6,29 @@ function haalCategorieenOp() {
     fetch(categorieenUrl)
         .then(response => response.json())
         .then(data => {
-            // Roep de functie aan om de categoriegegevens in de tabel weer te geven
-            toonCategorieen(data);
+            // Convert the fetched data into an array of CategorieDTO instances
+            const categorieen = data.map(categorieData => new CategorieDTO(categorieData.categorieId, categorieData.naam));
+            // Call the toonCategorieen function with the updated categorieen array
+            toonCategorieen(categorieen);
         })
-        .catch(error => console.error('Er is een fout opgetreden bij het ophalen van categoriegegevens:', error));
+        .catch(error => console.error('Er is een fout opgetreden bij het ophalen van de categorieën:', error));
+}
+
+function toonBericht(type, title, message) {
+    const toast = new bootstrap.Toast(document.getElementById('message'));
+    document.getElementById('message-title').textContent = title;
+    document.getElementById('message-body').textContent = message;
+    document.getElementById('message').classList.remove('bg-success', 'bg-danger');
+    document.getElementById('message').classList.add(`bg-${type}`);
+    toast.show();
+}
+
+function toonSuccesBericht(title, message) {
+    toonBericht('success', title, message);
+}
+
+function toonFoutBericht(title, message) {
+    toonBericht('danger', title, message);
 }
 
 // Functie om categoriegegevens in de tabel weer te geven
@@ -100,14 +119,21 @@ function bewerkCategorieInBackend(bewerkteCategorie) {
             // Verwerken van de respons van de backend, bijvoorbeeld notificatie weergeven
             console.log('Categorie succesvol bijgewerkt:', data);
             // Voeg hier code toe om een succesmelding te tonen aan de gebruiker
+            toonSuccesBericht('Categorie succesvol bijgewerkt', data.message);
+
 
             // Sluit de bewerkingsmodal
             const modal = new bootstrap.Modal(document.getElementById('bewerkCategorieModal'));
             modal.hide();
+
+            haalCategorieenOp();
+
         })
         .catch(error => {
             console.error('Fout bij het bijwerken van de categorie:', error.message);
             // Voeg hier code toe om een foutmelding te tonen aan de gebruiker
+            toonFoutBericht('Fout bij het bijwerkenvan de categorie', error.message);
+
         });
 }
 
@@ -130,15 +156,68 @@ function verwijderCategorie(categorieId) {
                     haalCategorieenOp();
                 } else {
                     // Als er een fout optreedt, toon een melding aan de gebruiker
-                    alert('Er is een fout opgetreden bij het verwijderen van de categorie.');
+                    toonFoutBericht('Er is een fout opgetreden bij het verwijderen van de categorie', error.message);
                 }
             })
             .catch(error => {
                 console.error('Er is een fout opgetreden bij het verwijderen van de categorie:', error);
-                alert('Er is een fout opgetreden bij het verwijderen van de categorie.');
+                toonFoutBericht('Er is een fout opgetreden bij het verwijderen van de categorie', error.message);
             });
     }
 }
+function toonToevoegModal() {
+    // Event listener toevoegen aan de knop "Toevoegen"
+    document.getElementById('toevoegenKnop').addEventListener('click', function() {
+        // Categoriegegevens ophalen uit de invoervelden
+        var nieuweCategorie = new CategorieDTO(document.getElementById('nieuweId').value, document.getElementById('nieuweNaam').value);
+
+        // Log the 'nieuweCategorie' object to the console
+        console.log('Nieuwe categorie:', nieuweCategorie);
+
+        // Verstuur de nieuwe categorie naar de backend om op te slaan
+        toevoegCategorieInBackend(nieuweCategorie);
+    });
+}
+
+function toevoegCategorieInBackend(nieuweCategorie) {
+    // Endpoint voor het toevoegen van een categorie in de backend
+    var endpoint ='http://localhost:8080/ORM_BP_24___Cloud_Solutions_war_exploded/api/categorieen';
+
+    // Opties voor het HTTP-verzoek
+    var options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(nieuweCategorie)
+    };
+
+    // HTTP-verzoek uitvoeren met behulp van Fetch API
+    fetch(endpoint, options)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Er is een fout opgetreden bij het toevoegen van de categorie.');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Verwerken van de respons van de backend, bijvoorbeeld notificatie weergeven
+            console.log('Categorie succesvol toegevoegd:', data);
+            // Voeg hier code toe om een succesmelding te tonen aan de gebruiker
+            toonSuccesBericht('Categorie succesvol toegevoegd', data.message);
+
+            // Update the table by calling haalCategorieenOp()
+            haalCategorieenOp();
+        })
+        .catch(error => {
+            console.error('Fout bij het toevoegen van de categorie:', error.message);
+            // Voeg hier code toe om een foutmelding te tonen aan de gebruiker
+            toonFoutBericht('Fout bij het toevoegen van de categorie', error.message);
+        });
+}
+
+
+
 
 // Roep de functie aan om categoriegegevens op te halen wanneer de pagina geladen is
 document.addEventListener('DOMContentLoaded', haalCategorieenOp);
