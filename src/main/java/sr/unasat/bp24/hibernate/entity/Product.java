@@ -12,8 +12,7 @@ public class Product {
     private int productId;
     private String naam;
     private double prijs;
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonBackReference
     @JoinColumn(name = "categorie_id")
     private Categorie categorie;

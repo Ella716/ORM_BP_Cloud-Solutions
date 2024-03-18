@@ -240,14 +240,16 @@ function verwijderGebruiker(gebruikerId) {
                 if (response.ok) {
                     // Als het verwijderen succesvol is, vernieuw de gebruikerslijst
                     haalGebruikersOp();
+                    toonSuccesBericht('Gebruiker succesvol verwijderd.');
+
                 } else {
                     // Als er een fout optreedt, toon een melding aan de gebruiker
-                    alert('Er is een fout opgetreden bij het verwijderen van de gebruiker.');
+                    toonFoutBericht('Er is een fout opgetreden bij het verwijderen van de gebruiker.');
                 }
             })
             .catch(error => {
                 console.error('Er is een fout opgetreden bij het verwijderen van de gebruiker:', error);
-                alert('Er is een fout opgetreden bij het verwijderen van de gebruiker.');
+                toonFoutBericht('Er is een fout opgetreden bij het verwijderen van de gebruiker.');
             });
     }
 }

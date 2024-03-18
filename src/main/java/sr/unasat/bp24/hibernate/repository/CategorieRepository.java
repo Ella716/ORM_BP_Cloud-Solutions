@@ -4,6 +4,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import sr.unasat.bp24.hibernate.entity.Categorie;
+import sr.unasat.bp24.hibernate.entity.Gebruiker;
 
 import java.util.List;
 
@@ -62,6 +63,12 @@ public class CategorieRepository {
             entityManager.persist(categorie);
             return categorie;
         }
+    }
+
+    public void updateCategorie(Categorie categorie) {
+        entityManager.getTransaction().begin();
+        entityManager.merge(categorie);
+        entityManager.getTransaction().commit();
     }
 
     public boolean delete(Categorie categorie) {

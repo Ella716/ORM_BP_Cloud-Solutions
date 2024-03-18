@@ -5,7 +5,6 @@ import jakarta.persistence.TypedQuery;
 import sr.unasat.bp24.hibernate.entity.Beoordeling;
 
 import java.util.List;
-
 public class BeoordelingRepository {
     private EntityManager entityManager;
 
@@ -29,4 +28,27 @@ public class BeoordelingRepository {
             entityManager.getTransaction().rollback();
         }
         return beoordeling;
-    }}
+    }
+
+    public Beoordeling updateBeoordeling(Beoordeling beoordeling) {
+        try {
+            entityManager.getTransaction().begin();
+            Beoordeling existingBeoordeling = entityManager.find(Beoordeling.class, beoordeling.getBeoordelingId());
+            if (existingBeoordeling != null) {
+                existingBeoordeling.setOpmerking(beoordeling.getOpmerking());
+                existingBeoordeling.setScore(beoordeling.getScore());
+                entityManager.merge(existingBeoordeling);
+            }
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            entityManager.getTransaction().rollback();
+        }
+        return beoordeling;
+    }
+
+
+    public Beoordeling findBeoordelingById(int beoordelingId) {
+        return entityManager.find(Beoordeling.class, beoordelingId);
+    }
+}

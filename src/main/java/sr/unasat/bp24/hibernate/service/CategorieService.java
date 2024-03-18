@@ -1,5 +1,6 @@
 package sr.unasat.bp24.hibernate.service;
 
+import jakarta.persistence.EntityManager;
 import sr.unasat.bp24.hibernate.configuration.JPAConfiguration;
 import sr.unasat.bp24.hibernate.entity.Categorie;
 import sr.unasat.bp24.hibernate.repository.CategorieRepository;
@@ -21,7 +22,23 @@ public class CategorieService {
         return repository.createCategorie(categorieNaam);
     }
     public Categorie updateCategorie(Categorie categorie) {
-        return repository.save(categorie);
+        Categorie existingCategorie = repository.findById(categorie.getCategorieId());
+        if (existingCategorie == null) {
+            return null;
+        }
+
+        // Update the name of the existing category
+        existingCategorie.setNaam(categorie.getNaam());
+
+        // Update the associated products of the existing category
+        // existingCategorie.setProducten(categorie.getProducten()); // Uncomment this line if you want to update the associated products as well
+
+        EntityManager em = JPAConfiguration.getEntityManager();
+        em.getTransaction().begin();
+        Categorie updatedCategorie = repository.save(existingCategorie);
+        em.getTransaction().commit();
+
+        return updatedCategorie;
     }
 
 

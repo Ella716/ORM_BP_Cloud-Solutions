@@ -7,6 +7,8 @@ import sr.unasat.bp24.hibernate.service.CategorieService;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import java.util.ArrayList;
+import java.util.List;
 
 @Path("/categorieen")
 public class CategorieController {
@@ -15,17 +17,27 @@ public class CategorieController {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllCategorieen() {
-        return Response.ok(categorieService.getCategorieen()).build();
+    public List<CategorieDTO> getCategorieen() {
+        List<Categorie> categorieen = categorieService.getCategorieen();
+        List<CategorieDTO> categorieDTOs = new ArrayList<>();
+        for (Categorie categorie : categorieen) {
+            CategorieDTO categorieDTO = new CategorieDTO();
+            categorieDTO.setCategorieId(categorie.getCategorieId());
+            categorieDTO.setNaam(categorie.getNaam());
+            categorieDTOs.add(categorieDTO);
+        }
+        return categorieDTOs;
     }
-
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCategorieById(@PathParam("id") int id) {
         Categorie categorie = categorieService.getCategorieById(id);
         if (categorie != null) {
-            return Response.ok(categorie).build();
+            CategorieDTO categorieDTO = new CategorieDTO();
+            categorieDTO.setCategorieId(categorie.getCategorieId());
+            categorieDTO.setNaam(categorie.getNaam());
+            return Response.ok(categorieDTO).build();
         } else {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
@@ -37,7 +49,10 @@ public class CategorieController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response createCategorie(String categorieNaam) {
         Categorie createdCategorie = categorieService.createCategorie(categorieNaam);
-        return Response.status(Response.Status.CREATED).entity(createdCategorie).build();
+        CategorieDTO createdCategorieDTO = new CategorieDTO();
+        createdCategorieDTO.setCategorieId(createdCategorie.getCategorieId());
+        createdCategorieDTO.setNaam(createdCategorie.getNaam());
+        return Response.status(Response.Status.CREATED).entity(createdCategorieDTO).build();
     }
 
     @PUT
@@ -54,7 +69,10 @@ public class CategorieController {
         // Update other properties as needed
 
         categorieService.updateCategorie(existingCategorie);
-        return Response.ok(existingCategorie).build();
+        CategorieDTO updatedCategorieDTO = new CategorieDTO();
+        updatedCategorieDTO.setCategorieId(existingCategorie.getCategorieId());
+        updatedCategorieDTO.setNaam(existingCategorie.getNaam());
+        return Response.ok(updatedCategorieDTO).build();
     }
 
 
