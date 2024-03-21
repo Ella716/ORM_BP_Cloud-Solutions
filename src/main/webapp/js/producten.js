@@ -1,5 +1,7 @@
 // URL van de REST-service voor het ophalen van productgegevens
 const productenUrl = 'http://localhost:8080/ORM_BP_24___Cloud_Solutions_war_exploded/api/producten';
+const categoriesUrl = 'http://localhost:8080/ORM_BP_24___Cloud_Solutions_war_exploded/api/categorieen';
+
 
 // Functie om productgegevens op te halen via een HTTP GET-verzoek
 function haalProductenOp() {
@@ -10,6 +12,16 @@ function haalProductenOp() {
             toonProducten(data);
         })
         .catch(error => console.error('Er is een fout opgetreden bij het ophalen van productgegevens:', error));
+}
+
+function haalCategorieenOp() {
+    fetch(categoriesUrl)
+        .then(response => response.json())
+        .then(data => {
+            // Call a function to populate the select element with categories
+            populateCategoriesDropdown(data);
+        })
+        .catch(error => console.error('Er is een fout opgetreden bij het ophalen van categorieën:', error));
 }
 
 // Functie om productgegevens in de tabel weer te geven
@@ -52,6 +64,21 @@ function toonProducten(producten) {
     });
 }
 
+function populateCategoriesDropdown(categories) {
+    const categorieSelect = document.getElementById('product-categorie');
+
+    // Clear existing options
+    categorieSelect.innerHTML = '';
+
+    // Create and append an option element for each category
+    categories.forEach(category => {
+        const option = document.createElement('option');
+        option.textContent = category.naam; // Assuming the category name is stored in the 'naam' property
+        option.value = category.categorieId; // Assuming the category ID is stored in the 'categorieId' property
+        categorieSelect.appendChild(option);
+    });
+}
+
 class ProductDTO {
     constructor(productId, naam, prijs, categorieNaam) {
         this.productId = productId;
@@ -71,6 +98,7 @@ function bewerkProduct(product) {
     // Invullen van de invoervelden met productgegevens
     document.getElementById('product-naam').value = product.naam;
     document.getElementById('product-prijs').value = product.prijs;
+    document.getElementById('product-categorie').value=product.categorieId;
 
     // Log the 'product' object to the console
     console.log('Product:', product);
@@ -164,3 +192,5 @@ function verwijderProduct(productId) {
 
 // Roep de functie aan om productgegevens op te halen wanneer de pagina geladen is
 document.addEventListener('DOMContentLoaded', haalProductenOp);
+document.addEventListener('DOMContentLoaded', haalCategorieenOp);
+
